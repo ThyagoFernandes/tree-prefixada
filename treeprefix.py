@@ -5,34 +5,41 @@ class tree:
 	def inserir_palavra(self, palavra):
 		no_atual = 0
 		for ch in palavra:
-			print(palavra+" "+str(self.nos[no_atual])+ " "+ str(self.nos[no_atual].filhos))
 			if(ch in self.nos[no_atual].filhos.keys()):
 				no_atual = self.nos[no_atual].filhos[ch]
 			else:
 				no = node(ch,no_atual)
-				no.pai = no_atual
 				self.nos[no_atual].setfilho(ch,len(self.nos))
 				no_atual = len(self.nos)
 				self.nos.append(no)
+		self.nos[no_atual].ehultimo_ch = True
 
-		print(self.nos)
 	def encontrar_palavra(self,palavra):
 		no_atual = 0	
 		for ch in palavra:
 			if(ch in self.nos[no_atual].filhos.keys()):
-				print("achei "+ ch + " em "+ str(self.nos[no_atual] ))
 				no_atual = self.nos[no_atual].filhos[ch]
 			else:
 				return False
+		if(self.nos[no_atual].ehultimo_ch  == False):
+		    return False
 		return True
 
 	def remover(self,palavra):
 		no_atual = 0
-		cont  = 1	
 		for ch in palavra:		
 			if(ch in self.nos[no_atual].filhos.keys()):
 				no_atual = self.nos[no_atual].filhos[ch]
-		print(str(self.nos[no_atual])+str(self.nos[no_atual].efolha()))
+		print(self.nos)
+		if(self.nos[no_atual].efolha() == False):
+		    if(self.nos[no_atual].ehultimo_ch ):
+		        self.nos[no_atual].ehultimo_ch = False
+		        print("removendo "+ palavra)
+		        return None
+		    else:
+		        print("palavra "+ palavra+" nao encontrada")
+		        return None
+		print("removendo "+ palavra)      
 		while(self.nos[no_atual].efolha()):
 			aux = self.nos[no_atual].pai
 			self.nos[self.nos[no_atual].pai].removefilho(self.nos[no_atual])
@@ -52,6 +59,7 @@ class node:
 		self.valor = valor
 		self.pai = pai
 		self.filhos = dict()
+		self.ehultimo_ch = False
 	@property	
 	def pai(self):
 		return self._pai
@@ -69,10 +77,8 @@ class node:
 
 	def removefilho(self,no):
 		self.filhos.pop(no.valor)
-		print(str(self.filhos)+"fff")
 	
 	def efolha(self):
-		print(str(self.valor) + str(len(self.filhos)))
 		return len(self.filhos) == 0
 	def __repr__(self):
 		return str(self.valor)
@@ -85,10 +91,9 @@ arv.inserir_palavra("nami")
 arv.inserir_palavra("luffy")
 arv.inserir_palavra("zoro")
 arv.inserir_palavra("lombard")
-print(arv.encontrar_palavra("lombard"))
-arv.remover("nami")
+print("encontrado "+str(arv.encontrar_palavra("lu")))
+arv.remover("lombard")
+arv.remover("lu")
+print("encontrado "+str(arv.encontrar_palavra("lu")))
 print(arv.nos)
-
-
-
 
