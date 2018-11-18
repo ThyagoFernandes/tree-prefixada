@@ -4,6 +4,7 @@ class tree:
 		self.nos = [r]
 	def inserir_palavra(self, palavra):
 		no_atual = 0
+		palavra = palavra.lower()
 		for ch in palavra:
 			if(ch in self.nos[no_atual].filhos.keys()):
 				no_atual = self.nos[no_atual].filhos[ch]
@@ -15,7 +16,8 @@ class tree:
 		self.nos[no_atual].ehultimo_ch = True
 
 	def encontrar_palavra(self,palavra):
-		no_atual = 0	
+		no_atual = 0
+		palavra = palavra.lower()
 		for ch in palavra:
 			if(ch in self.nos[no_atual].filhos.keys()):
 				no_atual = self.nos[no_atual].filhos[ch]
@@ -27,6 +29,7 @@ class tree:
 
 	def remover(self,palavra):
 		no_atual = 0
+		palavra = palavra.lower()
 		for ch in palavra:		
 			if(ch in self.nos[no_atual].filhos.keys()):
 				no_atual = self.nos[no_atual].filhos[ch]
@@ -86,7 +89,7 @@ class node:
 raiz  = node(0,None)
 arv= tree(raiz)
 arv.inserir_palavra("lu")
-arv.inserir_palavra("luf")
+arv.inserir_palavra("Luf")
 arv.inserir_palavra("nami")
 arv.inserir_palavra("luffy")
 arv.inserir_palavra("zoro")
