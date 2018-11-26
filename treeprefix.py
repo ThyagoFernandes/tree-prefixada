@@ -1,15 +1,22 @@
 class tree:
-	def __init__(self,r):
+	def __init__(self,r,alfabeto):
 		self.raiz = r
 		self.nos = [r]
+		self.alfabeto = alfabeto
 	def inserir_palavra(self, palavra):
 		no_atual = 0
-		palavra = palavra.lower()
+		palavra = palavra.lower() 
+		for c in palavra:
+			print(c + " "+ str(c in self.alfabeto))
+			if(c not in self.alfabeto ):
+				print("essa palavra possui caracteres que nao esta no alfabeto")
+				return None
+
 		for ch in palavra:
-			if(ch in self.nos[no_atual].filhos.keys()):
+			if(self.nos[no_atual].filhos[ch] is not None):
 				no_atual = self.nos[no_atual].filhos[ch]
 			else:
-				no = node(ch,no_atual)
+				no = node(ch,no_atual,self.alfabeto)
 				self.nos[no_atual].setfilho(ch,len(self.nos))
 				no_atual = len(self.nos)
 				self.nos.append(no)
@@ -19,10 +26,15 @@ class tree:
 		no_atual = 0
 		palavra = palavra.lower()
 		for ch in palavra:
-			if(ch in self.nos[no_atual].filhos.keys()):
-				no_atual = self.nos[no_atual].filhos[ch]
+			if(ch in self.alfabeto):
+				if(self.nos[no_atual].filhos[ch] is not None):
+					no_atual = self.nos[no_atual].filhos[ch]
+				else:
+					return False
 			else:
+				print("essa palavra possui caracteres fora do alfabeto (-->"+ch+"<--)")
 				return False
+
 		if(self.nos[no_atual].ehultimo_ch  == False):
 		    return False
 		return True
@@ -30,9 +42,13 @@ class tree:
 	def remover(self,palavra):
 		no_atual = 0
 		palavra = palavra.lower()
-		for ch in palavra:		
-			if(ch in self.nos[no_atual].filhos.keys()):
-				no_atual = self.nos[no_atual].filhos[ch]
+		for ch in palavra:
+			if(ch in self.alfabeto):		
+				if(self.nos[no_atual].filhos[ch] is not None):
+					no_atual = self.nos[no_atual].filhos[ch]
+			else:
+				print("essa palavra possui caracteres fora do alfabeto (-->"+ch+"<--), logo ele nunca estara nesta arvore")
+				return False	
 		print(self.nos)
 		if(self.nos[no_atual].efolha() == False):
 		    if(self.nos[no_atual].ehultimo_ch ):
@@ -58,11 +74,13 @@ class tree:
 
 class node:
 
-	def __init__(self,valor,pai):
+	def __init__(self,valor,pai, alfabeto):
 		self.valor = valor
 		self.pai = pai
+		self.alfabeto = alfabeto
 		self.filhos = dict()
 		self.ehultimo_ch = False
+		self.criar_filhos()
 	@property	
 	def pai(self):
 		return self._pai
@@ -79,15 +97,18 @@ class node:
 		self.filhos[ch] = index
 
 	def removefilho(self,no):
-		self.filhos.pop(no.valor)
+		self.filhos[no.valor] = None
+	def criar_filhos(self):
+		for ch in self.alfabeto :
+			self.filhos[ch] = None
 	
 	def efolha(self):
 		return len(self.filhos) == 0
 	def __repr__(self):
 		return str(self.valor)
-
-raiz  = node(0,None)
-arv= tree(raiz)
+alfa = "abcdefghijklmnopqrstuvxyz"
+raiz  = node(0,None,alfa)
+arv= tree(raiz,alfa)
 arv.inserir_palavra("lu")
 arv.inserir_palavra("Luf")
 arv.inserir_palavra("nami")
@@ -95,6 +116,7 @@ arv.inserir_palavra("luffy")
 arv.inserir_palavra("zoro")
 arv.inserir_palavra("lombard")
 print("encontrado "+str(arv.encontrar_palavra("lu")))
+print("encontrado "+str(arv.encontrar_palavra("lu3")))
 arv.remover("lombard")
 arv.remover("lu")
 print("encontrado "+str(arv.encontrar_palavra("lu")))
