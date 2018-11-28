@@ -7,7 +7,6 @@ class tree:
 		no_atual = 0
 		palavra = palavra.lower() 
 		for c in palavra:
-			print(c + " "+ str(c in self.alfabeto))
 			if(c not in self.alfabeto ):
 				print("essa palavra possui caracteres que nao esta no alfabeto")
 				return None
@@ -103,7 +102,12 @@ class node:
 			self.filhos[ch] = None
 	
 	def efolha(self):
-		return len(self.filhos) == 0
+		print("\n "+ str(self.valor))
+		for ch in self.alfabeto :
+			#print("o caractere"+ch+" esta? "+str(self.filhos[ch] is None))
+			if(self.filhos[ch] is not None):
+				return False
+		return True	
 	def __repr__(self):
 		return str(self.valor)
 alfa = "abcdefghijklmnopqrstuvxyz"
