@@ -66,16 +66,17 @@ class tree:
 		    if(self.nos[no_atual].ehultimo_ch ):
 		        self.nos[no_atual].ehultimo_ch = False
 		        print("removendo "+ palavra)
-		        return None
+		        return True
 		    else:
 		        print("palavra "+ palavra+" nao encontrada, logo nao pode ser removida")
-		        return None
+		        return False
 		print("removendo "+ palavra)      
 		while(self.nos[no_atual].efolha()):
 			aux = self.nos[no_atual].pai
 			self.nos[self.nos[no_atual].pai].removefilho(self.nos[no_atual])
 			del self.nos[no_atual]
 			no_atual = aux
+		return True
 
 
 	def __repr__(self):

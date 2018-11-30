@@ -4,21 +4,25 @@ raiz  = node(0,None,alfa)
 print("insercao de palavras")
 arv= tree(raiz,alfa)
 arv.inserir_palavra("amorosamente")
+arv.inserir_palavra("amorosamente")
+assert arv.encontrar_palavra("amorosamente") == True
 arv.inserir_palavra("amor")
 arv.inserir_palavra("amido")
+assert arv.encontrar_palavra("amido") == True
 arv.inserir_palavra("kamel0")
+assert arv.encontrar_palavra("kamel0") == False
 arv.inserir_palavra("lombo")
 arv.inserir_palavra("lombard")
 print("o vetor que contem o no "+ str(arv.nos))
-arv.encontrar_palavra("luffy")
-arv.encontrar_palavra("lombo")
-arv.remover("lombar")
-arv.encontrar_palavra("amor")
-arv.remover("amor")
-arv.encontrar_palavra("amido")
-arv.remover("amido")
-arv.encontrar_palavra("amido")
-arv.encontrar_palavra("amor")
+assert arv.encontrar_palavra("luffy") == False
+assert arv.encontrar_palavra("lombo") == True
+assert arv.remover("lombar") == False
+assert arv.encontrar_palavra("amor") == True
+assert arv.remover("amor")
+assert arv.encontrar_palavra("amido")  == True
+assert arv.remover("amido") == True
+assert arv.encontrar_palavra("amido") == False
+assert arv.encontrar_palavra("amor") == False
 print("o vetor que contem o no "+ str(arv.nos))
 
 
