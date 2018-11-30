@@ -6,56 +6,69 @@ class tree:
 	def inserir_palavra(self, palavra):
 		no_atual = 0
 		palavra = palavra.lower() 
+		print("")
+		print("palavra a ser inserida "+ palavra)
+		print("")
 		for c in palavra:
 			if(c not in self.alfabeto ):
-				print("essa palavra possui caracteres que nao esta no alfabeto")
+				print("a palavra "+palavra+" possui caracteres que nao esta no alfabeto "+ self.alfabeto)
+				print("")
 				return None
 
 		for ch in palavra:
 			if(self.nos[no_atual].filhos[ch] is not None):
+				print("no atual "+ str(self.nos[no_atual])+" ha filho "+ch+" logo "+ ch+ " eh o no atual")
 				no_atual = self.nos[no_atual].filhos[ch]
 			else:
+				print("no atual "+ str(self.nos[no_atual])+" nao ha filho "+ch)
+				print("criando o no "+ ch+" setando o seu pai como "+ str(self.nos[no_atual]))
 				no = node(ch,no_atual,self.alfabeto)
 				self.nos[no_atual].setfilho(ch,len(self.nos))
 				no_atual = len(self.nos)
 				self.nos.append(no)
 		self.nos[no_atual].ehultimo_ch = True
+		print("inserido com sucesso\n")
 
 	def encontrar_palavra(self,palavra):
 		no_atual = 0
 		palavra = palavra.lower()
 		for ch in palavra:
 			if(ch in self.alfabeto):
+				print("no ataul "+str(self.nos[no_atual])+" proximo no "+ch)
 				if(self.nos[no_atual].filhos[ch] is not None):
 					no_atual = self.nos[no_atual].filhos[ch]
 				else:
+					print("o no atual "+str(self.nos[no_atual])+" nao possui filho "+ ch )
+					print("palavra "+palavra+" nao encontrada")
 					return False
 			else:
 				print("essa palavra possui caracteres fora do alfabeto (-->"+ch+"<--)")
 				return False
 
 		if(self.nos[no_atual].ehultimo_ch  == False):
-		    return False
+			print("palavra "+palavra+" nao encontrada pois "+str(self.nos[no_atual])+ " nao eh terminal")
+			return False
+		print("palavra "+palavra+" encontrada")
 		return True
 
 	def remover(self,palavra):
 		no_atual = 0
 		palavra = palavra.lower()
 		for ch in palavra:
+			print("no ataul "+str(self.nos[no_atual])+" proximo no "+ch)
 			if(ch in self.alfabeto):		
 				if(self.nos[no_atual].filhos[ch] is not None):
 					no_atual = self.nos[no_atual].filhos[ch]
 			else:
 				print("essa palavra possui caracteres fora do alfabeto (-->"+ch+"<--), logo ele nunca estara nesta arvore")
 				return False	
-		print(self.nos)
 		if(self.nos[no_atual].efolha() == False):
 		    if(self.nos[no_atual].ehultimo_ch ):
 		        self.nos[no_atual].ehultimo_ch = False
 		        print("removendo "+ palavra)
 		        return None
 		    else:
-		        print("palavra "+ palavra+" nao encontrada")
+		        print("palavra "+ palavra+" nao encontrada, logo nao pode ser removida")
 		        return None
 		print("removendo "+ palavra)      
 		while(self.nos[no_atual].efolha()):
@@ -102,7 +115,6 @@ class node:
 			self.filhos[ch] = None
 	
 	def efolha(self):
-		print("\n "+ str(self.valor))
 		for ch in self.alfabeto :
 			#print("o caractere"+ch+" esta? "+str(self.filhos[ch] is None))
 			if(self.filhos[ch] is not None):
@@ -110,19 +122,3 @@ class node:
 		return True	
 	def __repr__(self):
 		return str(self.valor)
-alfa = "abcdefghijklmnopqrstuvxyz"
-raiz  = node(0,None,alfa)
-arv= tree(raiz,alfa)
-arv.inserir_palavra("lu")
-arv.inserir_palavra("Luf")
-arv.inserir_palavra("nami")
-arv.inserir_palavra("luffy")
-arv.inserir_palavra("zoro")
-arv.inserir_palavra("lombard")
-print("encontrado "+str(arv.encontrar_palavra("lu")))
-print("encontrado "+str(arv.encontrar_palavra("lu3")))
-arv.remover("lombard")
-arv.remover("lu")
-print("encontrado "+str(arv.encontrar_palavra("lu")))
-print(arv.nos)
-
